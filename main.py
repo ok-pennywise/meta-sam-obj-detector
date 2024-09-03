@@ -1,12 +1,14 @@
 import os
+from typing import Final
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
+import torch
 
 # Define paths
-input_image_path = "00000000.jpg"
-output_folder = "cropped_objects"
+input_image_path: Final[str] = "00000000.jpg"
+output_folder: Final[str] = "cropped_objects"
 
 # Create output folder if it doesn't exist
 if not os.path.exists(output_folder):
@@ -17,9 +19,9 @@ image = cv2.imread(input_image_path)
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 # Define SAM model
-sam_checkpoint = "sam_vit_b_01ec64.pth"
-model_type = "vit_b"
-device = "cpu"
+sam_checkpoint: Final[str] = "sam_vit_b_01ec64.pth"
+model_type: Final[str] = "vit_b"
+device: Final[str] = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Load SAM model
 sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
